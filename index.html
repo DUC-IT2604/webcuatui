@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Web Của Tôi - Bình Luận & Đánh Giá</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* General Styling */
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Header */
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 1rem 0;
+        text-align: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+      }
+
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      nav ul li a:hover {
+        background-color: #555;
+        border-radius: 4px;
+      }
+
+      /* Main Content Sections */
+      section {
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        color: #007bff;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+
+      /* Comments and Rating Section */
+      #comments-section {
+        padding-top: 20px;
+        border-top: 1px dashed #ccc;
+      }
+
+      .rating-summary {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 15px;
+        background-color: #e9f7ff;
+        border-radius: 5px;
+        border: 1px solid #cceeff;
+      }
+
+      .rating-summary h3 {
+        margin-top: 0;
+        color: #0056b3;
+      }
+
+      .stars {
+        color: #ffd700; /* Gold color for stars */
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+      }
+
+      .stars .fa-star {
+        margin: 0 2px;
+      }
+
+      .stars .far.fa-star {
+        /* For empty stars */
+        color: #ccc;
+      }
+
+      /* Comment Form */
+      .comment-form {
+        background-color: #f9f9f9;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 40px;
+      }
+
+      .comment-form h3 {
+        color: #007bff;
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+      }
+
+      .form-group input[type="text"],
+      .form-group textarea {
+        width: calc(100% - 22px); /* Account for padding and border */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .stars-input .fa-star {
+        cursor: pointer;
+        color: #ccc; /* Default color for unselected stars */
+        transition: color 0.2s ease;
+        font-size: 1.5rem;
+      }
+
+      .stars-input .fa-star.selected,
+      .stars-input .fa-star:hover,
+      .stars-input .fa-star:hover ~ .fa-star {
+        /* Highlight selected and hovered stars */
+        color: #ffd700;
+      }
+
+      button[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+
+      /* Comments List */
+      .comments-list {
+        margin-top: 30px;
+      }
+
+      .comments-list h3 {
+        color: #007bff;
+        margin-bottom: 20px;
+      }
+
+      .comment-item {
+        background-color: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .comment-item strong {
+        color: #333;
+        font-size: 1.1em;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .comment-item .comment-rating .stars {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+
+      .comment-item p {
+        margin-top: 10px;
+        margin-bottom: 0;
+        color: #666;
+      }
+
+      .comment-item .comment-date {
+        font-size: 0.85em;
+        color: #999;
+        margin-top: 5px;
+        text-align: right;
+      }
+
+      .no-comments-message {
+        text-align: center;
+        color: #888;
+        font-style: italic;
+        margin-top: 20px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 1rem 0;
+        margin-top: 40px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .container {
+          width: 95%;
+          padding: 15px;
+        }
+
+        header h1 {
+          font-size: 2rem;
+        }
+
+        nav ul {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1>Chào mừng đến với Trang Web của tôi!</h1>
+      <nav>
+        <ul>
+          <li><a href="#about">Giới thiệu</a></li>
+          <li><a href="#content">Nội dung</a></li>
+          <li><a href="#comments-section">Bình luận</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="about" class="container">
+        <h2>Giới thiệu</h2>
+        <p>
+          Đây là một trang web ví dụ được tạo bằng HTML, CSS và JavaScript. Mục
+          đích là để minh họa cách tạo một trang có phần bình luận và đánh giá
+          cơ bản. Hãy cùng khám phá!
+        </p>
+      </section>
+
+      <section id="content" class="container">
+        <h2>Nội dung chính</h2>
+        <p>
+          Trong phần này, bạn có thể đặt bất kỳ nội dung nào bạn muốn hiển thị
+          cho người dùng. Đây có thể là một bài viết, một sản phẩm, hoặc thông
+          tin về dịch vụ của bạn.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      </section>
+
+      <section id="comments-section" class="container">
+        <h2>Bình luận và Đánh giá</h2>
+
+        <div class="rating-summary">
+          <h3>Đánh giá trung bình</h3>
+          <div id="average-rating" class="stars"></div>
+          <p id="total-reviews">0 đánh giá</p>
+        </div>
+
+        <form id="comment-form" class="comment-form">
+          <h3>Để lại bình luận của bạn</h3>
+          <div class="form-group">
+            <label for="name">Tên của bạn:</label>
+            <input type="text" id="name" required />
+          </div>
+          <div class="form-group">
+            <label for="rating">Đánh giá (1-5 sao):</label>
+            <div id="star-rating" class="stars-input">
+              <i class="far fa-star" data-value="1"></i>
+              <i class="far fa-star" data-value="2"></i>
+              <i class="far fa-star" data-value="3"></i>
+              <i class="far fa-star" data-value="4"></i>
+              <i class="far fa-star" data-value="5"></i>
+            </div>
+            <input type="hidden" id="rating" value="0" />
+          </div>
+          <div class="form-group">
+            <label for="comment-text">Bình luận:</label>
+            <textarea id="comment-text" rows="5" required></textarea>
+          </div>
+          <button type="submit">Gửi bình luận</button>
+        </form>
+
+        <div id="comments-list" class="comments-list">
+          <h3>Các bình luận gần đây</h3>
+          <p class="no-comments-message">
+            Chưa có bình luận nào. Hãy là người đầu tiên!
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Trang Web của tôi. Tất cả quyền được bảo lưu.</p>
+    </footer>
+
+    <div id="dynamic-ad" class="direct-ad"></div>
+
+    <script>
+      const ads = [
+        {
+          image: "quang_cao_1.jpg",
+          link: "https://link_quang_cao_1.com",
+          alt: "Quảng cáo sản phẩm A",
+        },
+        {
+          image: "quang_cao_2.png",
+          link: "https://link_quang_cao_2.com",
+          alt: "Quảng cáo dịch vụ B",
+        },
+      ];
+
+      let currentAdIndex = 0;
+      const adContainer = document.getElementById("dynamic-ad");
+
+      function displayAd() {
+        const ad = ads[currentAdIndex];
+        adContainer.innerHTML = `
+            <a href="${ad.link}" target="_blank">
+                <img src="${ad.image}" alt="${ad.alt}" style="width:100%; height:auto;">
+            </a>
+        `;
+        currentAdIndex = (currentAdIndex + 1) % ads.length;
+      }
+
+      // Hiển thị quảng cáo ban đầu
+      displayAd();
+
+      // Tùy chọn: Thay đổi quảng cáo sau mỗi 10 giây
+      // setInterval(displayAd, 10000);
+      document.addEventListener("DOMContentLoaded", () => {
+        const commentForm = document.getElementById("comment-form");
+        const commentsList = document.getElementById("comments-list");
+        const starRatingInput = document.getElementById("star-rating");
+        const ratingHiddenInput = document.getElementById("rating");
+        const averageRatingDiv = document.getElementById("average-rating");
+        const totalReviewsParagraph = document.getElementById("total-reviews");
+        const noCommentsMessage = document.querySelector(
+          ".no-comments-message"
+        );
+
+        let selectedRating = 0;
+        let allComments = []; // Mảng để lưu trữ tất cả bình luận (tạm thời trên trình duyệt)
+
+        // Hàm để hiển thị sao cho đánh giá trung bình hoặc từng bình luận
+        function renderStars(container, ratingValue) {
+          container.innerHTML = ""; // Xóa các sao hiện có
+          for (let i = 1; i <= 5; i++) {
+            const star = document.createElement("i");
+            star.classList.add("fa-star");
+            if (i <= ratingValue) {
+              star.classList.add("fas"); // Solid star for filled
+            } else {
+              star.classList.add("far"); // Outline star for empty
+            }
+            container.appendChild(star);
+          }
+        }
+
+        // Cập nhật đánh giá trung bình
+        function updateAverageRating() {
+          if (allComments.length === 0) {
+            averageRatingDiv.innerHTML =
+              '<span style="color: #888;">Chưa có đánh giá</span>';
+            totalReviewsParagraph.textContent = "0 đánh giá";
+            return;
+          }
+
+          const totalRating = allComments.reduce(
+            (sum, comment) => sum + comment.rating,
+            0
+          );
+          const average = totalRating / allComments.length;
+          renderStars(averageRatingDiv, Math.round(average));
+          totalReviewsParagraph.textContent = `${allComments.length} đánh giá`;
+        }
+
+        // Xử lý sự kiện khi click vào các ngôi sao để đánh giá
+        starRatingInput.addEventListener("click", (event) => {
+          const target = event.target;
+          if (target.classList.contains("fa-star")) {
+            selectedRating = parseInt(target.dataset.value);
+            ratingHiddenInput.value = selectedRating;
+
+            // Cập nhật trạng thái sao đã chọn
+            const stars = starRatingInput.querySelectorAll(".fa-star");
+            stars.forEach((star) => {
+              const starValue = parseInt(star.dataset.value);
+              if (starValue <= selectedRating) {
+                star.classList.remove("far");
+                star.classList.add("fas", "selected");
+              } else {
+                star.classList.remove("fas", "selected");
+                star.classList.add("far");
+              }
+            });
+          }
+        });
+
+        // Xử lý hover để thay đổi màu sao trước khi click
+        starRatingInput.addEventListener("mouseover", (event) => {
+          const target = event.target;
+          if (target.classList.contains("fa-star")) {
+            const hoverValue = parseInt(target.dataset.value);
+            const stars = starRatingInput.querySelectorAll(".fa-star");
+            stars.forEach((star) => {
+              const starValue = parseInt(star.dataset.value);
+              if (starValue <= hoverValue) {
+                star.classList.remove("far");
+                star.classList.add("fas");
+              } else if (!star.classList.contains("selected")) {
+                star.classList.remove("fas");
+                star.classList.add("far");
+              }
+            });
+          }
+        });
+
+        // Reset màu sao khi di chuột ra ngoài
+        starRatingInput.addEventListener("mouseout", () => {
+          const stars = starRatingInput.querySelectorAll(".fa-star");
+          stars.forEach((star) => {
+            const starValue = parseInt(star.dataset.value);
+            if (starValue > selectedRating) {
+              star.classList.remove("fas");
+              star.classList.add("far");
+            }
+          });
+        });
+
+        // Xử lý gửi form bình luận
+        commentForm.addEventListener("submit", (event) => {
+          event.preventDefault(); // Ngăn chặn form gửi đi theo cách truyền thống
+
+          const name = document.getElementById("name").value.trim();
+          const commentText = document
+            .getElementById("comment-text")
+            .value.trim();
+          const rating = parseInt(ratingHiddenInput.value);
+
+          if (name === "" || commentText === "" || rating === 0) {
+            alert(
+              "Vui lòng điền đầy đủ Tên, Bình luận và chọn Đánh giá (từ 1 đến 5 sao)."
+            );
+            return;
+          }
+
+          const newComment = {
+            name: name,
+            comment: commentText,
+            rating: rating,
+            date: new Date().toLocaleDateString("vi-VN"), // Lấy ngày hiện tại
+          };
+
+          allComments.push(newComment); // Thêm bình luận mới vào mảng
+          displayComment(newComment); // Hiển thị bình luận lên UI
+          updateAverageRating(); // Cập nhật đánh giá trung bình
+
+          // Reset form
+          commentForm.reset();
+          selectedRating = 0; // Reset giá trị sao đã chọn
+          ratingHiddenInput.value = 0;
+          // Reset hiển thị sao trên form
+          const stars = starRatingInput.querySelectorAll(".fa-star");
+          stars.forEach((star) => {
+            star.classList.remove("fas", "selected");
+            star.classList.add("far");
+          });
+          noCommentsMessage.style.display = "none"; // Ẩn thông báo "Chưa có bình luận"
+        });
+
+        // Hàm để hiển thị một bình luận lên danh sách
+        function displayComment(comment) {
+          const commentItem = document.createElement("div");
+          commentItem.classList.add("comment-item");
+
+          const ratingDiv = document.createElement("div");
+          ratingDiv.classList.add("comment-rating", "stars");
+          renderStars(ratingDiv, comment.rating); // Hiển thị sao cho bình luận này
+
+          commentItem.innerHTML = `
+            <strong>${comment.name}</strong>
+            <div class="comment-rating stars"></div> <p>${comment.comment}</p>
+            <span class="comment-date">${comment.date}</span>
+        `;
+          commentItem.querySelector(".comment-rating").replaceWith(ratingDiv); // Thay thế placeholder bằng div sao đã render
+
+          commentsList.prepend(commentItem); // Thêm bình luận mới lên đầu danh sách
+        }
+
+        // Khởi tạo hiển thị khi tải trang
+        updateAverageRating();
+        if (allComments.length === 0) {
+          noCommentsMessage.style.display = "block";
+        }
+      });
+    </script>
+  </body>
+</html>
